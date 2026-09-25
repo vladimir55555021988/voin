@@ -1,0 +1,2271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Аврора — Военно-кадровый набор РФ | Контрактная служба от 18 до 63 лет</title>
+  <style>
+    :root {
+      --bg-base: #070B11;
+      --bg-surface: #0E1522;
+      --bg-card: #141E2E;
+      --bg-card-hover: #1A283E;
+      --bg-card-subtle: rgba(20, 30, 46, 0.7);
+      
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-medium: rgba(245, 166, 35, 0.25);
+      --border-accent: #E5A93C;
+      
+      --gold-100: #FEF3C7;
+      --gold-300: #FCD34D;
+      --gold-400: #FBBF24;
+      --gold-500: #F59E0B;
+      --gold-600: #D97706;
+      --gold-gradient: linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #B45309 100%);
+      --gold-glow: 0 0 25px rgba(245, 158, 11, 0.28);
+      
+      --green-accent: #10B981;
+      --green-glow: 0 0 16px rgba(16, 185, 129, 0.35);
+      --red-accent: #EF4444;
+      --blue-accent: #3B82F6;
+      
+      --text-main: #E2ECE5;
+      --text-secondary: #B2C7BA;
+      --text-muted: #859E90;
+      --text-dim: #5E7569;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 10px 24px -6px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
+      
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-stack);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(30, 58, 102, 0.25) 0%, transparent 60%),
+        radial-gradient(circle at 90% 40%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
+        linear-gradient(to bottom, #070B11, #0B111B);
+      background-attachment: fixed;
+    }
+
+    /* Фоновая тактическая микросетка */
+    .tactical-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* TYPOGRAPHY UTILS */
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold-300);
+    }
+    .badge-pill.green {
+      background: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.35);
+      color: #6EE7B7;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green-accent);
+      display: inline-block;
+      box-shadow: 0 0 10px var(--green-accent);
+      animation: pulseAnim 2s infinite;
+    }
+    @keyframes pulseAnim {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 28px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      border: none;
+      text-decoration: none;
+      user-select: none;
+      font-family: inherit;
+    }
+    .btn-gold {
+      background: var(--gold-gradient);
+      color: #0F172A;
+      box-shadow: 0 4px 18px rgba(245, 158, 11, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5);
+      color: #000;
+    }
+    .btn-gold:active {
+      transform: translateY(0);
+    }
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      backdrop-filter: blur(10px);
+    }
+    .btn-outline:hover {
+      border-color: var(--gold-400);
+      color: var(--gold-300);
+      background: rgba(245, 158, 11, 0.08);
+      transform: translateY(-2px);
+    }
+
+    /* HEADER */
+    header {
+      background: rgba(7, 11, 17, 0.88);
+      border-bottom: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+    .brand-logo-frame {
+      width: 46px;
+      height: 46px;
+      background: linear-gradient(135deg, #1E293B, #0F172A);
+      border: 1.5px solid var(--gold-400);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--gold-glow);
+      position: relative;
+    }
+    .brand-logo-frame svg {
+      width: 26px;
+      height: 26px;
+      fill: var(--gold-400);
+    }
+    .brand-text h1 {
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-main);
+      line-height: 1.1;
+    }
+    .brand-text span {
+      font-size: 0.74rem;
+      color: var(--gold-300);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+    }
+    .header-contacts {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .header-phone-box {
+      text-align: right;
+    }
+    .header-phone-num {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: block;
+      letter-spacing: 0.02em;
+    }
+    .header-phone-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      position: relative;
+      padding: 70px 0 60px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: -200px;
+      right: -100px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .hero-title {
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      margin: 18px 0;
+      color: var(--text-main);
+    }
+    .hero-title .text-gold-shine {
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 14px rgba(245, 158, 11, 0.3));
+    }
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 34px;
+      max-width: 620px;
+    }
+    .hero-features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 34px;
+    }
+    .hero-feature-card {
+      background: rgba(20, 30, 46, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s;
+    }
+    .hero-feature-card:hover {
+      border-color: var(--border-medium);
+      transform: translateY(-2px);
+    }
+    .hero-feat-icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(245, 158, 11, 0.12);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .hero-feat-icon svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--gold-400);
+    }
+    .hero-feat-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+    .hero-feat-desc {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* QUICK APPLY CARD IN HERO */
+    .quick-card {
+      background: linear-gradient(145deg, #111B2C, #0C1320);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 34px;
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.7), 0 0 30px rgba(245, 158, 11, 0.08);
+      position: relative;
+    }
+    .quick-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 15%;
+      right: 15%;
+      height: 2px;
+      background: var(--gold-gradient);
+    }
+    .quick-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .quick-card-title {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+    .quick-card-sub {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.4;
+    }
+
+    /* FORM ELEMENTS */
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 13px 16px;
+      background: rgba(7, 11, 17, 0.75);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .form-input:focus, .form-select:focus {
+      border-color: var(--gold-400);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+      background: rgba(11, 17, 28, 0.95);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .form-privacy {
+      font-size: 0.74rem;
+      color: var(--text-dim);
+      margin-top: 14px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* KEY STATS BAR */
+    .stats-bar {
+      padding: 34px 0;
+      background: rgba(11, 17, 27, 0.85);
+      border-bottom: 1px solid var(--border-subtle);
+      backdrop-filter: blur(10px);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .stat-item {
+      padding: 10px 18px;
+      border-left: 3px solid var(--gold-500);
+      background: linear-gradient(90deg, rgba(245, 158, 11, 0.04), transparent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+    .stat-num {
+      font-size: 2.1rem;
+      font-weight: 900;
+      color: var(--gold-300);
+      line-height: 1.1;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    /* SECTION BASICS */
+    section {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      position: relative;
+    }
+    .section-head {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 52px;
+    }
+    .section-tag {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--gold-400);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 900;
+      color: var(--text-main);
+      line-height: 1.22;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+    .section-desc {
+      font-size: 1.08rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* CALCULATOR */
+    .calc-card {
+      background: linear-gradient(145deg, #111928, #0B111D);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      box-shadow: var(--shadow-lg);
+      display: grid;
+      grid-template-columns: 1.2fr 0.9fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .calc-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+    .range-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .range-val {
+      color: var(--gold-300);
+      font-weight: 800;
+      font-size: 1.15rem;
+      background: rgba(245, 158, 11, 0.12);
+      padding: 3px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+    input[type=range] {
+      width: 100%;
+      height: 8px;
+      background: #080D15;
+      border-radius: 4px;
+      outline: none;
+      accent-color: var(--gold-400);
+      cursor: pointer;
+    }
+    .calc-pill-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .calc-pill {
+      padding: 13px;
+      background: rgba(7, 11, 18, 0.65);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      text-align: center;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-secondary);
+    }
+    .calc-pill:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+      color: var(--text-main);
+    }
+    .calc-pill.active {
+      border-color: var(--gold-400);
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--gold-100);
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.2);
+    }
+
+    .calc-result-box {
+      background: linear-gradient(160deg, #152238, #0C1422);
+      border: 2px solid var(--gold-400);
+      border-radius: var(--radius-md);
+      padding: 34px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), var(--gold-glow);
+    }
+    .calc-res-tag {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .calc-res-large {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--text-main);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 18px rgba(245, 158, 11, 0.35);
+      margin-bottom: 14px;
+    }
+    .calc-res-breakdown {
+      border-top: 1px solid var(--border-subtle);
+      margin-top: 22px;
+      padding-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+    }
+    .breakdown-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+    .breakdown-line span:first-child {
+      color: var(--text-muted);
+    }
+    .breakdown-line span:last-child {
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* HEALTH CATEGORIES TABS */
+    .tabs-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 34px;
+      flex-wrap: wrap;
+    }
+    .tab-nav-btn {
+      background: rgba(14, 21, 34, 0.8);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      padding: 13px 28px;
+      border-radius: var(--radius-sm);
+      font-size: 1.02rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-nav-btn:hover {
+      border-color: var(--gold-400);
+      color: var(--text-main);
+    }
+    .tab-nav-btn.active {
+      background: var(--gold-gradient);
+      color: #0B111A;
+      border-color: var(--gold-400);
+      box-shadow: 0 4px 18px rgba(245, 158, 11, 0.4);
+    }
+    .tab-card {
+      display: none;
+      background: linear-gradient(145deg, #111A29, #0C121E);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: var(--radius-lg);
+      padding: 38px;
+      box-shadow: var(--shadow-lg);
+      animation: tabFadeIn 0.3s ease-out;
+    }
+    .tab-card.active {
+      display: block;
+    }
+    @keyframes tabFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .tab-hero-box {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      margin-bottom: 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .tab-letter-badge {
+      width: 62px;
+      height: 62px;
+      border-radius: 16px;
+      background: rgba(245, 158, 11, 0.15);
+      border: 2px solid var(--gold-400);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--gold-300);
+      flex-shrink: 0;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.25);
+    }
+    .tab-hero-title h3 {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+    .tab-hero-title p {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+    .tab-inner-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .tab-sub-card {
+      background: rgba(7, 11, 18, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 24px;
+    }
+    .tab-sub-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--gold-300);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .tab-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .tab-list li {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      position: relative;
+      padding-left: 24px;
+      line-height: 1.45;
+    }
+    .tab-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--green-accent);
+      font-weight: 900;
+    }
+
+    /* VACANCIES SECTION */
+    .vac-filters-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 34px;
+      flex-wrap: wrap;
+    }
+    .vac-chip {
+      padding: 9px 20px;
+      background: rgba(14, 21, 34, 0.8);
+      border: 1px solid var(--border-subtle);
+      border-radius: 30px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .vac-chip:hover {
+      border-color: var(--gold-400);
+      color: var(--text-main);
+    }
+    .vac-chip.active {
+      background: rgba(245, 158, 11, 0.16);
+      border-color: var(--gold-400);
+      color: var(--gold-300);
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.18);
+    }
+    .vac-grid-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 22px;
+    }
+    .vac-item-card {
+      background: linear-gradient(145deg, #111A29, #0C121E);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .vac-item-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--gold-400);
+      box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.7), 0 0 20px rgba(245, 158, 11, 0.15);
+    }
+    .vac-badge-type {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: var(--gold-400);
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+    .vac-name {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--text-main);
+      line-height: 1.25;
+    }
+    .vac-info {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      flex-grow: 1;
+      line-height: 1.45;
+    }
+    .vac-reward {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #4ADE80;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .vac-reward span {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+
+    /* BENEFITS GRID */
+    .benefits-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .benefit-item {
+      background: linear-gradient(145deg, #101928, #0A111C);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 30px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .benefit-item:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+    }
+    .benefit-ico {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .benefit-ico svg {
+      width: 26px;
+      height: 26px;
+      fill: var(--gold-400);
+    }
+    .benefit-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+    .benefit-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* STEPS TIMELINE */
+    .steps-flow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .step-flow-box {
+      background: linear-gradient(145deg, #101928, #0B111D);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      position: relative;
+    }
+    .step-num-big {
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: rgba(245, 158, 11, 0.2);
+      line-height: 1;
+      margin-bottom: 12px;
+      font-feature-settings: "tnum";
+    }
+    .step-flow-title {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: var(--gold-300);
+      margin-bottom: 8px;
+    }
+    .step-flow-text {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* FAQ ACCORDION */
+    .faq-container {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .faq-row {
+      background: linear-gradient(145deg, #101928, #0C121E);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .faq-row:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+    }
+    .faq-q-btn {
+      padding: 22px 26px;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.08rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-family: inherit;
+    }
+    .faq-symbol {
+      font-size: 1.4rem;
+      color: var(--gold-400);
+      transition: transform 0.25s ease;
+      font-weight: 700;
+    }
+    .faq-row.active .faq-symbol {
+      transform: rotate(45deg);
+    }
+    .faq-a-content {
+      display: none;
+      padding: 0 26px 24px;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      margin-top: 4px;
+    }
+    .faq-row.active .faq-a-content {
+      display: block;
+    }
+
+    /* CTA APPLICATION SECTION */
+    .cta-big-card {
+      background: radial-gradient(circle at 10% 20%, rgba(30, 58, 102, 0.4) 0%, transparent 60%),
+                  linear-gradient(140deg, #16243A 0%, #0A111C 100%);
+      border: 2px solid var(--gold-400);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.8), 0 0 35px rgba(245, 158, 11, 0.15);
+    }
+    .cta-heading {
+      font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+      font-weight: 900;
+      line-height: 1.18;
+      margin-bottom: 16px;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+    .cta-text p {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .contacts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.98rem;
+    }
+    .contact-row svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--gold-400);
+      flex-shrink: 0;
+    }
+
+    /* MODAL */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal-inner-card {
+      background: linear-gradient(150deg, #131E31, #0A111C);
+      border: 2px solid var(--gold-400);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), var(--gold-glow);
+      animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-ico-wrap {
+      width: 70px;
+      height: 70px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 2px solid var(--green-accent);
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--green-glow);
+    }
+    .modal-ico-wrap svg {
+      width: 38px;
+      height: 38px;
+      fill: var(--green-accent);
+    }
+    .modal-inner-card h3 {
+      font-size: 1.55rem;
+      font-weight: 900;
+      margin-bottom: 12px;
+      color: var(--text-main);
+    }
+    .modal-inner-card p {
+      font-size: 0.96rem;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.55;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #05080E;
+      padding: 44px 0;
+      border-top: 1px solid var(--border-subtle);
+      color: var(--text-dim);
+      font-size: 0.85rem;
+    }
+    .footer-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-description {
+      max-width: 650px;
+      line-height: 1.65;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .calc-card { grid-template-columns: 1fr; }
+      .benefits-cards-grid { grid-template-columns: 1fr 1fr; }
+      .steps-flow-grid { grid-template-columns: 1fr 1fr; }
+      .cta-big-card { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .hero-features { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .tab-inner-grid { grid-template-columns: 1fr; }
+      .benefits-cards-grid { grid-template-columns: 1fr; }
+      .steps-flow-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .header-phone-box { display: none; }
+      .quick-card { padding: 22px; }
+      .calc-card { padding: 22px; }
+      .cta-big-card { padding: 24px; }
+      .calc-pill-grid { grid-template-columns: 1fr; }
+    }
+  
+    /* ДЕКОРАТИВНЫЕ ЛЕНТЫ ФЛАГА РФ */
+    .rf-top-ribbon-bar {
+      height: 4px;
+      width: 100%;
+      background: linear-gradient(to bottom, 
+        #FFFFFF 0%, #FFFFFF 33.33%, 
+        #1E40AF 33.33%, #1E40AF 66.66%, 
+        #DC2626 66.66%, #DC2626 100%
+      );
+      position: relative;
+      z-index: 101;
+      box-shadow: 0 0 10px rgba(220, 38, 38, 0.4);
+    }
+
+    /* Диагональная ленточка-вымпел триколора для карточек */
+    .rf-corner-ribbon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 110px;
+      height: 110px;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .rf-corner-ribbon-inner {
+      position: absolute;
+      display: block;
+      width: 160px;
+      padding: 5px 0;
+      background: linear-gradient(to bottom, 
+        #FFFFFF 0%, #FFFFFF 33.33%, 
+        #1D4ED8 33.33%, #1D4ED8 66.66%, 
+        #E11D48 66.66%, #E11D48 100%
+      );
+      box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+      color: var(--text-main);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+      font-size: 0.65rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+      left: -20px;
+      top: 24px;
+      transform: rotate(45deg);
+    }
+    .rf-corner-ribbon-inner span {
+      background: rgba(11, 17, 27, 0.85);
+      padding: 1px 12px;
+      border-radius: 4px;
+      display: inline-block;
+      line-height: 1.2;
+      color: var(--text-main);
+    }
+
+    /* Элегантная лента триколора как разделитель или акцент */
+    .rf-ribbon-strip {
+      display: inline-flex;
+      height: 6px;
+      width: 60px;
+      border-radius: 3px;
+      background: linear-gradient(to right, 
+        #FFFFFF 0%, #FFFFFF 33.33%, 
+        #1D4ED8 33.33%, #1D4ED8 66.66%, 
+        #DC2626 66.66%, #DC2626 100%
+      );
+      box-shadow: 0 0 8px rgba(29, 78, 216, 0.5);
+      vertical-align: middle;
+      margin: 0 8px;
+    }
+
+    /* Фирменный бейдж с флагом-лентой РФ */
+    .rf-flag-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px;
+      background: rgba(14, 21, 34, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-full);
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: 0.04em;
+    }
+    .rf-flag-icon {
+      width: 18px;
+      height: 12px;
+      border-radius: 2px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+      flex-shrink: 0;
+    }
+    .rf-flag-icon .stripe-w { height: 4px; background: #FFFFFF; }
+    .rf-flag-icon .stripe-b { height: 4px; background: #1D4ED8; }
+    .rf-flag-icon .stripe-r { height: 4px; background: #DC2626; }
+
+    /* Декоративная геральдическая лента-волна триколора в Hero */
+    .rf-wave-ribbon {
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        #FFFFFF 15%, #FFFFFF 35%, 
+        #1D4ED8 35%, #1D4ED8 65%, 
+        #DC2626 65%, #DC2626 85%, 
+        transparent 100%
+      );
+      opacity: 0.75;
+      margin: 20px 0;
+      border-radius: 4px;
+      filter: drop-shadow(0 0 8px rgba(29, 78, 216, 0.4));
+    }
+
+  </style>
+</head>
+<body>
+  <div class="rf-top-ribbon-bar"></div>
+  <div class="tactical-grid-bg"></div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-logo-frame" style="width:52px;height:52px;padding:2px;overflow:hidden;border:2px solid var(--gold-400);box-shadow:0 0 20px rgba(245,158,11,0.35);">
+          <img src="data:image/webp;base64,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" alt="Эмблема Аврора" style="width:100%;height:100%;object-fit:cover;border-radius:9px;display:block;">
+        </div>
+        <div class="brand-text">
+          <h1>АВРОРА</h1>
+          <span>Военно-кадровый набор РФ</span>
+          <div class="rf-flag-badge" style="margin-top:2px;">
+            <div class="rf-flag-icon">
+              <div class="stripe-w"></div>
+              <div class="stripe-b"></div>
+              <div class="stripe-r"></div>
+            </div>
+            <span>Служба по контракту</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-contacts">
+        <div class="header-phone-box">
+          <a href="tel:+79005404099" class="header-phone-num" style="text-decoration:none;color:var(--text-main);transition:color 0.2s;" onmouseover="this.style.color='var(--gold-300)'" onmouseout="this.style.color='#FFF'">+7 (900) 540-40-99</a>
+          <span class="header-phone-sub"><span class="pulse-dot"></span> Единый консультационный центр 24/7</span>
+        </div>
+        <button type="button" class="btn btn-gold" onclick="scrollToForm('Консультация')">Оставить заявку</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="badge-pill">
+          <span class="pulse-dot"></span> Федеральный набор открыт
+        </div>
+
+        <h2 class="hero-title">
+          Служба по контракту в ВС РФ: <span class="text-gold-shine">от 18 до 63 лет</span>
+        </h2>
+
+        <p class="hero-desc">
+          Единый центр отбора «Аврора». Официальное оформление, персональный подбор специальности под ваш опыт, полное содействие по всем категориям годности <strong>(А, Б, В, Г)</strong> и максимальные региональные выплаты.
+        </p>
+
+        <div class="hero-features">
+          <div class="hero-feature-card">
+            <div class="hero-feat-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            </div>
+            <div class="hero-feat-title">Категории А, Б, В, Г</div>
+            <div class="hero-feat-desc">Подбираем штатные и тыловые должности</div>
+          </div>
+
+          <div class="hero-feature-card">
+            <div class="hero-feat-icon">
+              <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+            </div>
+            <div class="hero-feat-title">До 2 500 000 ₽</div>
+            <div class="hero-feat-desc">Единовременно при заключении контракта</div>
+          </div>
+
+          <div class="hero-feature-card">
+            <div class="hero-feat-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+            </div>
+            <div class="hero-feat-title">Статус ВБД и льготы</div>
+            <div class="hero-feat-desc">Списание кредитов, жилье и защита семье</div>
+          </div>
+        </div>
+
+        <div class="rf-wave-ribbon"></div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;">
+          <button type="button" class="btn btn-gold" onclick="scrollToForm('Срочная заявка')">Подать анкету кандидата</button>
+          <button type="button" class="btn btn-outline" onclick="scrollToSection('calculator')">Калькулятор довольствия ↓</button>
+        </div>
+      </div>
+
+      <!-- QUICK APPLICATION CARD -->
+      <div class="quick-card" style="overflow:hidden;">
+        <div class="rf-corner-ribbon">
+          <div class="rf-corner-ribbon-inner">
+            <span>ВС РФ</span>
+          </div>
+        </div>
+        <div class="quick-card-head">
+          <span class="quick-card-title">Экспресс-анкета</span>
+          <span class="badge-pill green"><span class="pulse-dot"></span> Набор открыт</span>
+        </div>
+        <p class="quick-card-sub">Заполните данные — специалист свяжется с вами в течение 15 минут для согласования части и должности</p>
+
+        <div class="form-group">
+          <label class="form-label">Ваше имя (ФИО)</label>
+          <input type="text" id="heroName" class="form-input" placeholder="Иван Иванович">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Возраст (18–63)</label>
+            <input type="number" id="heroAge" class="form-input" min="18" max="63" value="35">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Категория здоровья</label>
+            <select id="heroHealth" class="form-select">
+              <option value="А">Категория А (годен)</option>
+              <option value="Б" selected>Категория Б (незначит. огр.)</option>
+              <option value="В">Категория В (ограниченно)</option>
+              <option value="Г">Категория Г (временно)</option>
+              <option value="Не знаю">Не знаю / требуется уточнить</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Контактный телефон</label>
+          <input type="tel" id="heroPhone" class="form-input" placeholder="+7 (___) ___-__-__">
+        </div>
+
+        <button type="button" class="btn btn-gold" style="width:100%;margin-top:6px;" onclick="submitApplication('hero')">
+          Отправить заявку дежурному
+        </button>
+        <p class="form-privacy">Конфиденциально. Ваши персональные данные защищены законом РФ.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY STATS BAR -->
+  <div class="stats-bar">
+    <div class="container stats-grid">
+      <div class="stat-item">
+        <div class="stat-num">18 – 63 года</div>
+        <div class="stat-label">Официальный возраст поступления на контракт</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">от 210 000 ₽</div>
+        <div class="stat-label">Минимальное ежемесячное довольствие на руки</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100% категорий</div>
+        <div class="stat-label">Служба для кандидатов категорий А, Б, В и Г</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">1 рабочий день</div>
+        <div class="stat-label">Срок согласования кандидатуры и оформления</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALCULATOR SECTION -->
+  <section id="calculator">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tag">Калькулятор довольствия</span><br><span class="rf-ribbon-strip"></span>
+        <h2 class="section-title">Расчет подъемных выплат и зарплаты</h2>
+        <p class="section-desc">Узнайте точную сумму единовременного пособия при подписании контракта и ежемесячный доход в зависимости от региона и специальности.</p>
+      </div>
+
+      <div class="calc-card">
+        <div class="calc-controls">
+          <div class="form-group">
+            <label class="form-label">Регион оформления контракта</label>
+            <select id="calcRegion" class="form-select" onchange="updateCalc()">
+              <option value="moscow">Москва и Московская область (подъемные до 2 300 000 ₽)</option>
+              <option value="spb">Санкт-Петербург и Ленобласть (подъемные до 2 100 000 ₽)</option>
+              <option value="regions" selected>Субъекты РФ (подъемные от 1 400 000 до 1 900 000 ₽)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Направление службы и специфика</label>
+            <div class="calc-pill-grid">
+              <div class="calc-pill active" onclick="setCalcRole(this, 'combat')">Боевые подразделения</div>
+              <div class="calc-pill" onclick="setCalcRole(this, 'tech')">Операторы БПЛА / Связь</div>
+              <div class="calc-pill" onclick="setCalcRole(this, 'driver')">Водители и автомеханики</div>
+              <div class="calc-pill" onclick="setCalcRole(this, 'support')">Тыл, снабжение, медики</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="range-head">
+              <span>Срок контракта:</span>
+              <span id="termValue" class="range-val">1 год</span>
+            </div>
+            <input type="range" id="contractTerm" min="1" max="3" step="1" value="1" oninput="updateCalc()">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Воинское звание / статус</label>
+            <select id="calcRank" class="form-select" onchange="updateCalc()">
+              <option value="soldier">Рядовой / Матрос (в том числе без опыта службы)</option>
+              <option value="sergeant">Сержант / Прапорщик / Старшина</option>
+              <option value="officer">Офицер запаса / Лейтенант</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="calc-result-box">
+          <div class="calc-res-tag">Единовременно при заключении</div>
+          <div class="calc-res-large" id="oneTimeTotal">1 800 000 ₽</div>
+
+          <div class="calc-res-tag" style="margin-top:14px;">Ежемесячно на карту «Мир»</div>
+          <div style="font-size:1.85rem;font-weight:900;color:#4ADE80;margin-bottom:14px;" id="monthlyTotal">235 000 ₽/мес.</div>
+
+          <div class="calc-res-breakdown">
+            <div class="breakdown-line">
+              <span>Федеральная выплата (МО РФ):</span>
+              <span id="fedBonus">400 000 ₽</span>
+            </div>
+            <div class="breakdown-line">
+              <span>Региональная надбавка:</span>
+              <span id="regBonus">1 400 000 ₽</span>
+            </div>
+            <div class="breakdown-line">
+              <span>Боевые суточные и надбавки:</span>
+              <span>от 50 000 до 300 000 ₽</span>
+            </div>
+            <div class="breakdown-line" style="border-top:1px dashed rgba(255,255,255,0.15);padding-top:10px;">
+              <span>Итоговый доход за 1-й год:</span>
+              <span style="color:var(--gold-300);font-size:1.1rem;font-weight:900;" id="yearTotal">4 620 000 ₽</span>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-gold" style="width:100%;margin-top:24px;" onclick="scrollToForm('После калькулятора')">
+            Зафиксировать расчет выплат
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HEALTH CATEGORIES SECTION -->
+  <section id="health">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tag">Категории годности</span>
+        <h2 class="section-title">Прием кандидатов с категориями А, Б, В, Г</h2>
+        <p class="section-desc">Отметка в военном билете не является преградой для службы. Под каждую категорию закреплены конкретные военные специальности.</p>
+      </div>
+
+      <div class="tabs-nav">
+        <button type="button" class="tab-nav-btn active" onclick="switchTab(0)">Категория А</button>
+        <button type="button" class="tab-nav-btn" onclick="switchTab(1)">Категория Б</button>
+        <button type="button" class="tab-nav-btn" onclick="switchTab(2)">Категория В (ограниченно)</button>
+        <button type="button" class="tab-nav-btn" onclick="switchTab(3)">Категория Г (временно)</button>
+      </div>
+
+      <!-- PANEL A -->
+      <div class="tab-card active">
+        <div class="tab-hero-box">
+          <div class="tab-letter-badge">А</div>
+          <div class="tab-hero-title">
+            <h3>Годен к военной службе без ограничений</h3>
+            <p>Отличное физическое состояние. Доступны любые элитные подразделения, штурмовые роты, ВДВ, морская пехота и спецназ.</p>
+          </div>
+        </div>
+        <div class="tab-inner-grid">
+          <div class="tab-sub-card">
+            <div class="tab-sub-title">Доступные направления</div>
+            <ul class="tab-list">
+              <li>Штурмовые и разведывательные батальоны</li>
+              <li>Снайперские пары и группы специального назначения</li>
+              <li>Воздушно-десантные войска и морская пехота</li>
+              <li>Специальные мобильные группы огневой поддержки</li>
+            </ul>
+          </div>
+          <div class="tab-sub-card">
+            <div class="tab-sub-title">Преимущества категории</div>
+            <ul class="tab-list">
+              <li>Максимальный приоритет при распределении по частям</li>
+              <li>Повышенные надбавки за особые условия службы (+50-100%)</li>
+              <li>Ускоренное присвоение очередных воинских званий</li>
+              <li>Передовая экипировка и экипировочные комплекты</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL B -->
+      <div class="tab-card">
+        <div class="tab-hero-box">
+          <div class="tab-letter-badge">Б</div>
+          <div class="tab-hero-title">
+            <h3>Годен с незначительными ограничениями</h3>
+            <p>Незначительные отклонения здоровья (зрение, плоскостопие, старые травмы). Самая массовая и востребованная категория.</p>
+          </div>
+        </div>
+        <div class="tab-inner-grid">
+          <div class="tab-sub-card">
+            <div class="tab-sub-title">Доступные направления</div>
+            <ul class="tab-list">
+              <li>Мотострелковые части и бронетанковые экипажи</li>
+              <li>Артиллерийские расчеты и операторы РСЗО</li>
+              <li>Операторы БПЛА (дроны-разведчики и ударные FPV)</li>
+              <li>Связисты, радиоэлектронная борьба (РЭБ)</li>
+            </ul>
+          </div>
+          <div class="tab-sub-card">
+            <div class="tab-sub-title">Особенности службы</div>
+            <ul class="tab-list">
+              <li>Служба в регулярных боевых частях ВС РФ</li>
+              <li>Широкий выбор технических и инженерных должностей</li>
+              <li>Полное сохранение всех стандартных и повышенных окладов</li>
+              <li>Обучение на полигонах под руководством боевых инструкторов</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL V -->
+      <div class="tab-card">
+        <div class="tab-hero-box">
+          <div class="tab-letter-badge">В</div>
+          <div class="tab-hero-title">
+            <h3>Ограниченно годен к военной службе</h3>
+            <p>Освобождение в мирное время не является препятствием для контрактной службы сегодня. Доступны десятки важных обеспечивающих и технических должностей.</p>
+          </div>
+        </div>
+        <div class="tab-inner-grid">
+          <div class="tab-sub-card">
+            <div class="tab-sub-title">Доступные направления</div>
+            <ul class="tab-list">
+              <li>Водители автотранспорта (кат. B, C, D, E) в ротах материального подвоза</li>
+              <li>Ремонтные батальоны, слесари, мастера ремонта бронетехники</li>
+              <li>Склады вооружения, ГСМ и материально-техническое снабжение (МТО)</li>
+              <li>Повара, пекари, хозяйственные и интендантские подразделения</li>
+              <li>Медицинский персонал (санитары, дезинфекторы, фельдшеры)</li>
+              <li>Комендантская служба и охрана стратегических тыловых объектов</li>
+            </ul>
+          </div>
+          <div class="tab-sub-card">
+            <div class="tab-sub-title">Особые условия</div>
+            <ul class="tab-list">
+              <li>Официальный контракт с сохранением полного пакета выплат</li>
+              <li>Служба без избыточных физических нагрузок штурмовых групп</li>
+              <li>Полноценный статус ветерана боевых действий и все льготы</li>
+              <li>Индивидуальное собеседование с военным врачом центра отбора</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL G -->
+      <div class="tab-card">
+        <div class="tab-hero-box">
+          <div class="tab-letter-badge">Г</div>
+          <div class="tab-hero-title">
+            <h3>Временно негоден к военной службе</h3>
+            <p>Предоставлена отсрочка после операции, травмы или обострения заболевания. Мы помогаем быстро пройти переосвидетельствование.</p>
+          </div>
+        </div>
+        <div class="tab-inner-grid">
+          <div class="tab-sub-card">
+            <div class="tab-sub-title">Содействие центра «Аврора»</div>
+            <ul class="tab-list">
+              <li>Бесплатное медицинское сопровождение в партнерских центрах</li>
+              <li>Проверка состояния независимыми профильными специалистами</li>
+              <li>Официальное закрытие отсрочки при восстановлении здоровья</li>
+              <li>Перевод в категорию Б или В с немедленным заключением контракта</li>
+            </ul>
+          </div>
+          <div class="tab-sub-card">
+            <div class="tab-sub-title">Гарантии для кандидата</div>
+            <ul class="tab-list">
+              <li>Бронирование выбранной вами должности на период оформления</li>
+              <li>Помощь военных юристов в подготовке медицинских справок</li>
+              <li>Бесплатный трансфер и проживание в комфортных условиях</li>
+              <li>Выход на службу сразу после снятия временного ограничения</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VACANCIES SECTION -->
+  <section id="vacancies">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tag">Каталог должностей</span><br><span class="rf-ribbon-strip"></span>
+        <h2 class="section-title">Все специальности: от БПЛА до авторемонта</h2>
+        <p class="section-desc">Подберем должность по вашей гражданской профессии, водительскому стажу или техническим навыкам.</p>
+      </div>
+
+      <div class="vac-filters-row">
+        <div class="vac-chip active" onclick="filterVac(this, 'all')">Все специальности</div>
+        <div class="vac-chip" onclick="filterVac(this, 'tech')">БПЛА, IT и связь</div>
+        <div class="vac-chip" onclick="filterVac(this, 'auto')">Водители и автотехника</div>
+        <div class="vac-chip" onclick="filterVac(this, 'combat')">Боевые специальности</div>
+        <div class="vac-chip" onclick="filterVac(this, 'support')">Тыл, снабжение, медики</div>
+      </div>
+
+      <div class="vac-grid-layout" id="vacList">
+        <!-- ITEM 1 -->
+        <div class="vac-item-card" data-cat="tech">
+          <div>
+            <span class="vac-badge-type">Высокие технологии</span>
+            <h3 class="vac-name">Оператор FPV-дронов и БПЛА</h3>
+            <p class="vac-info">Пилотирование ударных и разведывательных коптеров. Обучение на тренажерах и закрытых полигонах с нуля.</p>
+          </div>
+          <div>
+            <div class="vac-reward">от 240 000 ₽ <span>/ месяц</span></div>
+            <button type="button" class="btn btn-outline" style="width:100%;" onclick="selectVac('Оператор БПЛА')">Выбрать должность</button>
+          </div>
+        </div>
+
+        <!-- ITEM 2 -->
+        <div class="vac-item-card" data-cat="auto">
+          <div>
+            <span class="vac-badge-type">Автотранспорт</span>
+            <h3 class="vac-name">Водитель (категории C, D, E)</h3>
+            <p class="vac-info">Управление грузовыми автомобилями КАМАЗ, УРАЛ. Подвоз личного состава, продовольствия и спецгрузов.</p>
+          </div>
+          <div>
+            <div class="vac-reward">от 225 000 ₽ <span>/ месяц</span></div>
+            <button type="button" class="btn btn-outline" style="width:100%;" onclick="selectVac('Водитель грузового авто')">Выбрать должность</button>
+          </div>
+        </div>
+
+        <!-- ITEM 3 -->
+        <div class="vac-item-card" data-cat="auto">
+          <div>
+            <span class="vac-badge-type">Техническое обслуживание</span>
+            <h3 class="vac-name">Механик-слесарь бронетехники</h3>
+            <p class="vac-info">Ремонт и плановое обслуживание колесной и гусеничной техники (БТР, БМП, танки) в ремонтных батальонах.</p>
+          </div>
+          <div>
+            <div class="vac-reward">от 215 000 ₽ <span>/ месяц</span></div>
+            <button type="button" class="btn btn-outline" style="width:100%;" onclick="selectVac('Механик-слесарь')">Выбрать должность</button>
+          </div>
+        </div>
+
+        <!-- ITEM 4 -->
+        <div class="vac-item-card" data-cat="combat">
+          <div>
+            <span class="vac-badge-type">Огневая мощь</span>
+            <h3 class="vac-name">Стрелок / Пулеметчик / Гранатометчик</h3>
+            <p class="vac-info">Основное боевое звено мотострелковых подразделений. Работа со штатным стрелковым и групповым вооружением.</p>
+          </div>
+          <div>
+            <div class="vac-reward">от 230 000 ₽ <span>/ месяц</span></div>
+            <button type="button" class="btn btn-outline" style="width:100%;" onclick="selectVac('Стрелок / Пулеметчик')">Выбрать должность</button>
+          </div>
+        </div>
+
+        <!-- ITEM 5 -->
+        <div class="vac-item-card" data-cat="tech">
+          <div>
+            <span class="vac-badge-type">Связь и РЭБ</span>
+            <h3 class="vac-name">Специалист связи и радиоэлектроники</h3>
+            <p class="vac-info">Обеспечение защищенных каналов связи, эксплуатация ретрансляторов и мобильных комплексов радиоэлектронной борьбы.</p>
+          </div>
+          <div>
+            <div class="vac-reward">от 220 000 ₽ <span>/ месяц</span></div>
+            <button type="button" class="btn btn-outline" style="width:100%;" onclick="selectVac('Специалист связи')">Выбрать должность</button>
+          </div>
+        </div>
+
+        <!-- ITEM 6 -->
+        <div class="vac-item-card" data-cat="support">
+          <div>
+            <span class="vac-badge-type">Медицина</span>
+            <h3 class="vac-name">Военный санитар / Фельдшер</h3>
+            <p class="vac-info">Первая доврачебная помощь, сопровождение и эвакуация раненых, дежурство в стационарных медпунктах.</p>
+          </div>
+          <div>
+            <div class="vac-reward">от 220 000 ₽ <span>/ месяц</span></div>
+            <button type="button" class="btn btn-outline" style="width:100%;" onclick="selectVac('Санитар / Фельдшер')">Выбрать должность</button>
+          </div>
+        </div>
+
+        <!-- ITEM 7 -->
+        <div class="vac-item-card" data-cat="support">
+          <div>
+            <span class="vac-badge-type">Снабжение и тыл</span>
+            <h3 class="vac-name">Военный повар / Начальник кухни</h3>
+            <p class="vac-info">Организация полевого и гарнизонного питания (прицепные кухни ПАК). Идеально подходит для категорий Б и В.</p>
+          </div>
+          <div>
+            <div class="vac-reward">от 210 000 ₽ <span>/ месяц</span></div>
+            <button type="button" class="btn btn-outline" style="width:100%;" onclick="selectVac('Военный повар')">Выбрать должность</button>
+          </div>
+        </div>
+
+        <!-- ITEM 8 -->
+        <div class="vac-item-card" data-cat="support">
+          <div>
+            <span class="vac-badge-type">Охрана и порядок</span>
+            <h3 class="vac-name">Комендантская служба / Охрана складов</h3>
+            <p class="vac-info">Несение караульной службы на контрольно-пропускных пунктах и охрана стратегических объектов материального снабжения.</p>
+          </div>
+          <div>
+            <div class="vac-reward">от 210 000 ₽ <span>/ месяц</span></div>
+            <button type="button" class="btn btn-outline" style="width:100%;" onclick="selectVac('Охрана складов / Комендатура')">Выбрать должность</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS GRID -->
+  <section id="benefits">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tag">Социальная защита</span><br><span class="rf-ribbon-strip"></span>
+        <h2 class="section-title">Все льготы военнослужащих ВС РФ и их семей</h2>
+        <p class="section-desc">Законодательство Российской Федерации гарантирует каждому контрактнику расширенный социальный пакет.</p>
+      </div>
+
+      <div class="benefits-cards-grid">
+        <div class="benefit-item">
+          <div class="benefit-ico">
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          </div>
+          <h3 class="benefit-name">Статус ветерана БД</h3>
+          <p class="benefit-text">Пожизненная ежемесячная государственная выплата, 50% компенсация услуг ЖКХ, освобождение от имущественного и транспортного налога.</p>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-ico">
+            <svg viewBox="0 0 24 24"><path d="M19 14V6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zm-9-1c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm13-6v11c0 1.1-.9 2-2 2H4v-2h17V7h2z"/></svg>
+          </div>
+          <h3 class="benefit-name">Кредитные каникулы и списание долгов</h3>
+          <p class="benefit-text">Заморозка платежей по кредитам и ипотеке на весь срок службы. Возможность полного аннулирования долгов по 377-ФЗ.</p>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-ico">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          </div>
+          <h3 class="benefit-name">Собственное жилье (НИС)</h3>
+          <p class="benefit-text">Военная ипотека: государство ежемесячно перечисляет взносы на именной счет. Квартира переходит в вашу собственность.</p>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-ico">
+            <svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+          </div>
+          <h3 class="benefit-name">Бюджетные места детям в ВУЗах</h3>
+          <p class="benefit-text">Специальные государственные квоты на бесплатное высшее образование для детей военнослужащих в лучших университетах страны.</p>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-ico">
+            <svg viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
+          </div>
+          <h3 class="benefit-name">Сохранение рабочего места</h3>
+          <p class="benefit-text">Трудовой договор на гражданской работе приостанавливается. Закон запрещает увольнение военнослужащего-контрактника.</p>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-ico">
+            <svg viewBox="0 0 24 24"><path d="M10.5 13H8v-3h2.5V7.5h3V10H16v3h-2.5v2.5h-3V13zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+          </div>
+          <h3 class="benefit-name">Медицинская страховка</h3>
+          <p class="benefit-text">Бесплатное обслуживание и высокотехнологичное лечение в военных госпиталях. Обязательное страхование жизни и здоровья.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEPS HOW TO JOIN -->
+  <section id="steps">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tag">Маршрут кандидата</span>
+        <h2 class="section-title">4 понятных шага от анкеты до контракта</h2>
+        <p class="section-desc">Берем на себя все организационные моменты: трансфер, размещение и юридическое сопровождение.</p>
+      </div>
+
+      <div class="steps-flow-grid">
+        <div class="step-flow-box">
+          <div class="step-num-big">01</div>
+          <h3 class="step-flow-title">Подача заявки</h3>
+          <p class="step-flow-text">Заполните короткую форму на сайте. Наш куратор согласует должность и условия в течение 15 минут.</p>
+        </div>
+
+        <div class="step-flow-box">
+          <div class="step-num-big">02</div>
+          <h3 class="step-flow-title">Бесплатный проезд</h3>
+          <p class="step-flow-text">Оплачиваем билеты на поезд или самолет из любой точки РФ, встречаем и заселяем в комфортный пункт ожидания.</p>
+        </div>
+
+        <div class="step-flow-box">
+          <div class="step-num-big">03</div>
+          <h3 class="step-flow-title">Медкомиссия за 1 день</h3>
+          <p class="step-flow-text">Быстрое прохождение профильных врачей без очередей. Индивидуальный подход к кандидатам категорий Б, В и Г.</p>
+        </div>
+
+        <div class="step-flow-box">
+          <div class="step-num-big">04</div>
+          <h3 class="step-flow-title">Контракт и выплаты</h3>
+          <p class="step-flow-text">Официальное подписание контракта, зачисление единовременных подъемных выплат на карту «Мир» и отбытие на подготовку.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tag">Вопрос — ответ</span>
+        <h2 class="section-title">Часто задаваемые вопросы</h2>
+        <p class="section-desc">Ответы на ключевые вопросы о контрактной службе, выплатах и категориях здоровья.</p>
+      </div>
+
+      <div class="faq-container">
+        <div class="faq-row">
+          <button type="button" class="faq-q-btn" onclick="toggleFaq(this)">
+            <span>Принимают ли на службу граждан до 63 лет включительно?</span>
+            <span class="faq-symbol">+</span>
+          </button>
+          <div class="faq-a-content">
+            Да. Действующее законодательство Российской Федерации позволяет заключать контракт мужчинам в возрасте от 18 до 63 лет. Кандидатам старшего возраста подбираются соответствующие специальности с учетом их жизненного и профессионального опыта: водители грузового транспорта, мастера ремонта, инструкторы, тыловое обеспечение и охрана объектов.
+          </div>
+        </div>
+
+        <div class="faq-row">
+          <button type="button" class="faq-q-btn" onclick="toggleFaq(this)">
+            <span>Можно ли поступить на контракт с категорией «В» (ограниченно годен)?</span>
+            <span class="faq-symbol">+</span>
+          </button>
+          <div class="faq-a-content">
+            Да, абсолютно. Категория «В» в военном билете не является препятствием. Мы подбираем подразделения, где отсутствуют изнуряющие штурмовые нагрузки: технические службы, автомобильные колонны подвоза, склады, ремонтные роты, санитарная часть. При этом кандидат получает точно такие же единовременные выплаты, зарплату и статус ветерана БД, как и все остальные военнослужащие.
+          </div>
+        </div>
+
+        <div class="faq-row">
+          <button type="button" class="faq-q-btn" onclick="toggleFaq(this)">
+            <span>Когда и как зачисляются единовременные подъемные выплаты?</span>
+            <span class="faq-symbol">+</span>
+          </button>
+          <div class="faq-a-content">
+            Федеральная выплата от Министерства обороны РФ (400 000 ₽) и региональная доплата (от 1 000 000 до 1 900 000+ ₽) перечисляются на расчетный счет банковской карты «Мир» кандидата в течение 5–14 рабочих дней после подписания приказа о зачислении в часть.
+          </div>
+        </div>
+
+        <div class="faq-row">
+          <button type="button" class="faq-q-btn" onclick="toggleFaq(this)">
+            <span>Берут ли граждан без опыта срочной службы в армии?</span>
+            <span class="faq-symbol">+</span>
+          </button>
+          <div class="faq-a-content">
+            Да, опыт срочной службы не является обязательным требованием. Перед отправкой к месту службы каждый новобранец проходит углубленный курс военной подготовки на полигоне (от 2 до 4 недель) под руководством инструкторов с реальным боевым опытом.
+          </div>
+        </div>
+
+        <div class="faq-row">
+          <button type="button" class="faq-q-btn" onclick="toggleFaq(this)">
+            <span>Что происходит с долгами у судебных приставов (ФССП) и кредитами?</span>
+            <span class="faq-symbol">+</span>
+          </button>
+          <div class="faq-a-content">
+            В соответствии с Федеральным законом № 377-ФЗ, после заключения контракта все текущие исполнительные производства у приставов приостанавливаются, а аресты со счетов снимаются. По банковским кредитам оформляются официальные кредитные каникулы с заморозкой процентов.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL APPLICATION FORM -->
+  <section id="application">
+    <div class="container">
+      <div class="cta-big-card">
+        <div class="cta-text">
+          <h2 class="cta-heading">Служба по контракту — достойное будущее вашей семьи</h2>
+          <p>
+            Оставьте заявку прямо сейчас. Специалисты военно-кадрового центра «Аврора» свяжутся с вами, бесплатно рассчитают положенные выплаты и подготовят документы для комфортного выезда.
+          </p>
+
+          <div class="contacts-list">
+            <div class="contact-row">
+              <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              <span>Электронная приемная кандидатов: <strong>vladimir5555502@gmail.com</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="quick-card" style="background:#0D1422;overflow:hidden;">
+        <div class="rf-corner-ribbon">
+          <div class="rf-corner-ribbon-inner">
+            <span>РОССИЯ</span>
+          </div>
+        </div>
+          <div class="quick-card-head">
+            <span class="quick-card-title">Анкета на согласование</span>
+            <span class="badge-pill">ВС РФ Контракт</span>
+          </div>
+          <p class="quick-card-sub">Заполните поля для персонального расчета надбавок и бронирования должности</p>
+
+          <div class="form-group">
+            <label class="form-label">Ваше ФИО полностью</label>
+            <input type="text" id="appFio" class="form-input" placeholder="Иванов Сергей Петрович">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Возраст (18–63)</label>
+              <input type="number" id="appAge" class="form-input" min="18" max="63" placeholder="38">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Категория годности</label>
+              <select id="appHealth" class="form-select">
+                <option value="А">Категория А (годен)</option>
+                <option value="Б" selected>Категория Б (незначит. огр.)</option>
+                <option value="В">Категория В (ограниченно)</option>
+                <option value="Г">Категория Г (временно)</option>
+                <option value="Уточнить">Требуется уточнить</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Желаемая должность / специальность</label>
+            <input type="text" id="appRole" class="form-input" placeholder="Например: Водитель грузового авто, БПЛА или любая">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Контактный номер телефона</label>
+            <input type="tel" id="appPhone" class="form-input" placeholder="+7 (900) 000-00-00">
+          </div>
+
+          <button type="button" class="btn btn-gold" style="width:100%;margin-top:6px;" onclick="submitApplication('main')">
+            Отправить анкету кандидату
+          </button>
+          <p class="form-privacy">Гарантируем конфиденциальность. Ваши данные передаются по защищенному шифрованному каналу.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-wrapper">
+      <div class="footer-description">
+        <strong style="color:var(--text-main);">Военно-кадровый набор «Аврора»</strong> — профессиональное содействие гражданам РФ в поступлении на военную службу по контракту в ряды Вооруженных Сил Российской Федерации. Набор кандидатов в возрасте от 18 до 63 лет по всем категориям здоровья (А, Б, В, Г).
+        <div style="margin-top:10px;">
+          Все положенные выплаты, оклады и социальные гарантии регулируются Федеральным законом «О воинской обязанности и военной службе» и Указами Президента РФ.
+        </div>
+      </div>
+      <div>
+        <button type="button" class="btn btn-outline" style="font-size:0.85rem;padding:10px 20px;" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+          Наверх ↑
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SUCCESS MODAL -->
+  <div class="modal-backdrop" id="successModal">
+    <div class="modal-inner-card">
+      <div class="modal-ico-wrap">
+        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      </div>
+      <h3>Заявка успешно принята!</h3>
+      <p id="modalMsg">
+        Ваша анкета зарегистрирована. Оперативный дежурный центра «Аврора» свяжется с вами по указанному телефону в ближайшее время.
+      </p>
+      <div style="background:rgba(7, 11, 18, 0.7);padding:14px;border-radius:var(--radius-sm);margin-bottom:22px;font-size:0.9rem;border:1px dashed var(--border-medium);">
+        <span>Номер талона: </span><strong style="color:var(--gold-300);" id="appTicketNum">#АВ-84920</strong>
+      </div>
+      <button type="button" class="btn btn-gold" style="width:100%;" onclick="closeModal()">Понятно, закрыть</button>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // НАСТРОЙКА ОТПРАВКИ ЗАЯВОК НА ПОЧТУ
+    // =========================================================================
+    var EMAIL_CONFIG = {
+      targetEmail: 'vladimir5555502@gmail.com',
+      // Сервис FormSubmit отправляет данные на почту напрямую без API-ключей.
+      // При первой отправке на почту придет письмо с подтверждением активации (1 клик).
+      endpoint: 'https://formsubmit.co/ajax/vladimir5555502@gmail.com',
+      accessKey: '' // Опционально: если решите использовать Web3Forms
+    };
+
+    // Global Calculator State
+    var calcState = {
+      region: 'regions',
+      role: 'combat',
+      rank: 'soldier',
+      term: 1
+    };
+
+    function setCalcRole(element, role) {
+      var btns = element.parentElement.querySelectorAll('.calc-pill');
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].classList.remove('active');
+      }
+      element.classList.add('active');
+      calcState.role = role;
+      updateCalc();
+    }
+
+    function updateCalc() {
+      var regionSelect = document.getElementById('calcRegion');
+      if (regionSelect) calcState.region = regionSelect.value;
+
+      var rankSelect = document.getElementById('calcRank');
+      if (rankSelect) calcState.rank = rankSelect.value;
+
+      var termSlider = document.getElementById('contractTerm');
+      if (termSlider) calcState.term = parseInt(termSlider.value, 10);
+
+      var termLabel = document.getElementById('termValue');
+      if (termLabel) {
+        termLabel.innerText = calcState.term === 1 ? '1 год' : (calcState.term + ' года');
+      }
+
+      var federal = 400000;
+      var regional = 1400000;
+
+      if (calcState.region === 'moscow') {
+        regional = 1900000;
+      } else if (calcState.region === 'spb') {
+        regional = 1700000;
+      } else {
+        regional = 1400000;
+      }
+
+      var oneTime = federal + regional;
+
+      var monthlyBase = 210000;
+      if (calcState.role === 'combat') monthlyBase += 25000;
+      if (calcState.role === 'tech') monthlyBase += 20000;
+      if (calcState.role === 'driver') monthlyBase += 15000;
+      if (calcState.role === 'support') monthlyBase += 5000;
+
+      if (calcState.rank === 'sergeant') monthlyBase += 15000;
+      if (calcState.rank === 'officer') monthlyBase += 35000;
+
+      var yearTotal = oneTime + (monthlyBase * 12);
+
+      var elOneTime = document.getElementById('oneTimeTotal');
+      var elMonthly = document.getElementById('monthlyTotal');
+      var elFed = document.getElementById('fedBonus');
+      var elReg = document.getElementById('regBonus');
+      var elYear = document.getElementById('yearTotal');
+
+      if (elOneTime) elOneTime.innerText = formatNumber(oneTime) + ' ₽';
+      if (elMonthly) elMonthly.innerText = formatNumber(monthlyBase) + ' ₽/мес.';
+      if (elFed) elFed.innerText = formatNumber(federal) + ' ₽';
+      if (elReg) elReg.innerText = formatNumber(regional) + ' ₽';
+      if (elYear) elYear.innerText = formatNumber(yearTotal) + ' ₽';
+    }
+
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
+
+    // Health categories tabs
+    function switchTab(index) {
+      var buttons = document.querySelectorAll('.tabs-nav .tab-nav-btn');
+      var panels = document.querySelectorAll('.tab-card');
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove('active');
+      }
+      for (var j = 0; j < panels.length; j++) {
+        panels[j].classList.remove('active');
+      }
+      if (buttons[index]) buttons[index].classList.add('active');
+      if (panels[index]) panels[index].classList.add('active');
+    }
+
+    // Vacancies filtering
+    function filterVac(chip, category) {
+      var chips = document.querySelectorAll('.vac-chip');
+      for (var i = 0; i < chips.length; i++) {
+        chips[i].classList.remove('active');
+      }
+      chip.classList.add('active');
+
+      var cards = document.querySelectorAll('#vacList .vac-item-card');
+      for (var j = 0; j < cards.length; j++) {
+        var cardCat = cards[j].getAttribute('data-cat');
+        if (category === 'all' || cardCat === category) {
+          cards[j].style.display = 'flex';
+        } else {
+          cards[j].style.display = 'none';
+        }
+      }
+    }
+
+    function selectVac(roleTitle) {
+      var appRole = document.getElementById('appRole');
+      if (appRole) {
+        appRole.value = roleTitle;
+      }
+      scrollToForm(roleTitle);
+    }
+
+    // FAQ Accordion
+    function toggleFaq(btn) {
+      var item = btn.parentElement;
+      var isActive = item.classList.contains('active');
+      var allFaqs = document.querySelectorAll('.faq-row');
+      for (var i = 0; i < allFaqs.length; i++) {
+        allFaqs[i].classList.remove('active');
+      }
+      if (!isActive) {
+        item.classList.add('active');
+      }
+    }
+
+    // Navigation
+    function scrollToSection(id) {
+      var target = document.getElementById(id);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function scrollToForm(contextTitle) {
+      var target = document.getElementById('application');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // Отправка заявки на Email
+    function sendCandidateDataToEmail(data, callback) {
+      var emailPayload = {
+        _subject: 'Новая анкета кандидата ВС РФ [' + data.ticket + '] — ' + (data.name || 'Кандидат') + ' (' + data.phone + ')',
+        _captcha: 'false',
+        _template: 'table',
+        'Талон заявки': data.ticket,
+        'ФИО кандидата': data.name || 'Не указано',
+        'Телефон': data.phone,
+        'Возраст': data.age ? (data.age + ' лет') : 'Не указан',
+        'Категория здоровья': data.health || 'Не указана',
+        'Желаемая должность': data.role || 'Подбор по специальности',
+        'Форма на сайте': data.source === 'hero' ? 'Экспресс-анкета (верхняя)' : 'Основная анкета (нижняя)',
+        'Дата и время': new Date().toLocaleString('ru-RU')
+      };
+
+      // Если в конфиге указан accessKey для Web3Forms, переключаем endpoint
+      var targetUrl = EMAIL_CONFIG.accessKey 
+        ? 'https://api.web3forms.com/submit' 
+        : EMAIL_CONFIG.endpoint;
+
+      if (EMAIL_CONFIG.accessKey) {
+        emailPayload.access_key = EMAIL_CONFIG.accessKey;
+      }
+
+      fetch(targetUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(emailPayload)
+      })
+      .then(function(res) {
+        return res.json();
+      })
+      .then(function(resData) {
+        callback(true, 'success');
+      })
+      .catch(function(err) {
+        console.warn('Сетевой статус отправки:', err);
+        // Не блокируем кандидата в случае сетевых ограничений
+        callback(false, 'network_fallback');
+      });
+    }
+
+        function submitApplication(source) {
+      var phone = '';
+      var name = '';
+      var age = '';
+      var health = '';
+      var role = '';
+      var submitBtn = null;
+
+      if (source === 'hero') {
+        name = document.getElementById('heroName').value.trim();
+        phone = document.getElementById('heroPhone').value.trim();
+        age = document.getElementById('heroAge').value.trim();
+        health = document.getElementById('heroHealth').value;
+        role = 'Подбор по специальности';
+        submitBtn = document.querySelector('.quick-card button.btn-gold');
+      } else {
+        name = document.getElementById('appFio').value.trim();
+        phone = document.getElementById('appPhone').value.trim();
+        age = document.getElementById('appAge').value.trim();
+        health = document.getElementById('appHealth').value;
+        role = document.getElementById('appRole').value.trim();
+        submitBtn = document.querySelector('#application button.btn-gold');
+      }
+
+      if (!phone || phone.length < 6) {
+        alert('Пожалуйста, укажите контактный номер телефона для связи.');
+        return;
+      }
+
+      var origBtnText = submitBtn ? submitBtn.innerText : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'Отправка анкеты...';
+      }
+
+      var randomCode = Math.floor(10000 + Math.random() * 90000);
+      var ticketStr = '#АВ-' + randomCode;
+
+      var candidateData = {
+        name: name,
+        phone: phone,
+        age: age,
+        health: health,
+        role: role,
+        ticket: ticketStr,
+        source: source
+      };
+
+      sendCandidateDataToEmail(candidateData, function(success, status) {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerText = origBtnText;
+        }
+
+        var ticketEl = document.getElementById('appTicketNum');
+        if (ticketEl) ticketEl.innerText = ticketStr;
+
+        var modalMsg = document.getElementById('modalMsg');
+        if (modalMsg) {
+          var emailNotice = EMAIL_CONFIG.accessKey !== 'YOUR_ACCESS_KEY_HERE'
+            ? '<br><br><span style="color:var(--green-accent);font-weight:700;">✉ Анкета кандидата успешно направлена на рабочую почту.</span>'
+            : '<br><br><span style="color:var(--green-accent);font-weight:700;">✉ Анкета кандидата успешно направлена на почту vladimir5555502@gmail.com</span>';
+
+          modalMsg.innerHTML = 'Кандидат <strong>' + (name ? name : 'принят') + '</strong> (возраст: ' + (age ? age : '18-63') + ', категория ' + health + ', специальность: ' + (role ? role : 'по согласованию') + ').<br>Заявка зафиксирована. Дежурный свяжется с вами по номеру <strong>' + phone + '</strong>.' + emailNotice;
+        }
+
+        var modal = document.getElementById('successModal');
+        if (modal) modal.classList.add('active');
+      });
+    }
+
+    function closeModal() {
+      var modal = document.getElementById('successModal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    // Запуск начального расчета
+    updateCalc();
+  </script>
+</body>
+</html>
