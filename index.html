@@ -2267,5 +2267,33 @@
     // Запуск начального расчета
     updateCalc();
   </script>
+<!-- Автоматическая отправка заявок на vladimir5555502@gmail.com -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const forms = document.querySelectorAll('form');
+  forms.forEach(form => {
+    form.addEventListener('submit', function(e) {
+      // Присваиваем имена полям, если они не были заданы
+      form.querySelectorAll('input, select, textarea').forEach((field, i) => {
+        if (!field.name) {
+          const label = field.getAttribute('placeholder') || ('Поле_' + (i + 1));
+          field.name = label;
+        }
+      });
+
+      const formData = new FormData(form);
+      formData.append('_subject', 'Новая заявка на контракт (сайт «Аврора / Воин»)');
+      formData.append('_captcha', 'false');
+
+      // Отправка на почту через FormSubmit в фоновом режиме
+      fetch('https://formsubmit.co/ajax/vladimir5555502@gmail.com', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: formData
+      }).catch(err => console.error('Ошибка отправки:', err));
+    });
+  });
+});
+</script>
 </body>
 </html>
